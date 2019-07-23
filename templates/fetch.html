@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetch</title>
+</head>
+<body>
+<form method="post">
+    <label>email</label>
+    <input type="text" name="email"/>
+
+    <table border="3" cellspacing="0" cellpadding="20" >
+        <tr>
+            <td>name</td>
+            <td>email</td>
+            <td>mobile</td>
+            <td>city</td>
+            <td>password</td>
+            <td>image</td>
+
+        </tr>
+        {% csrf_token %}
+        {% if ud %}
+        {% for i in ud %}
+
+        <td>
+            <a href="/userindex/edit/?email={{i.email}}">edit </a> /<a href="/userindex/delete/?em={{i.email}}">delete</a>
+        </td>
+        <tr style="color:red; background-color:yellow; font-size:50px; font-family:cursive">
+            <td style="background-color:lightblue; color:white">{{i.name}}</td>
+            <td style="background-color:blue; color:white">{{i.email}}</td>
+            <td style="background-color:blue; color:white">{{i.mobile}}</td>
+            <td style="background-color:blue; color:white">{{i.city}}</td>
+            <td style="background-color:blue; color:white">{{i.password}}</td>
+            <td>
+                <img src="/media/{{i.image}}" height="50px" width="50px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>reset-password</td>
+
+            <td> <a href="/userindex/updateuserpassword/"> Click-here</a> </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+
+
+    </table>
+    <input type="submit" value="fetch "/>
+</form>
+
+
+</body>
+</html>

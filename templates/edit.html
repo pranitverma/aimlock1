@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>edit</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <label>email</label>
+    <input type="text" name="email" readonly=True value="{{ud.email}}"/>
+    <label>name</label>
+    <input type="text" name="name" value="{{ud.name}}"/>
+    <label>password</label>
+    <input type="text" name="password" value="{{ud.password}}"/>
+    <label>city</label>
+    <input type="text" name="city" value="{{ud.city}}"/>
+    <label>mobile</label>
+    <input type="text" name="mobile" value="{{ud.mobile}}"/>
+    <br/>
+    <input type="submit" value="update "/>
+</form>
+
+</body>
+</html>
