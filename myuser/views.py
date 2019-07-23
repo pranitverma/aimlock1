@@ -147,77 +147,69 @@ def verifyuser(request):
 
 
 def updatepassword(request):
-
-    emailid = request.session['email']
+    emailid = request.session["email"]
 
     data = Signup.objects.get(email=emailid)
 
     value1 = data.name
 
-    otp_msg = otp_sending()
-    otp_time = time()
-    update = Signup(
-        email=emailid,
-        otp=otp_msg,
-        otpgentime=otp_time
-    )
-    update.save(update_fields=["otp", "otpgentime"])
-
-    smtp(value1, otp_msg, otp_time, emailid)
-
-    #tokenvalue = data.OTP
+    # tokenvalue = data.OTP
 
     if request.method == "POST":
+
+        otpvalue = request.POST["OTP"]
+        n_p_v = request.POST["newpassword"]
+        c_p_v = request.POST["confirmpassword"]
 
         dbotp = data.otp
-        otpvalue = request.POST["OTP"]
+        print(emailid, "otptest", otpvalue)
+        if otpvalue != "":
 
-        if dbotp == otpvalue:
+            if dbotp == otpvalue:
 
-            return render(request, "password_update.html", {'updatepassword': True})
+                return render(request, "password_update.html", {'updatepassword': True})
+            else:
+                return render(request, "password_update.html", {'OTP': True, 'wrongotp': True})
 
-        confirmation(request)
+        if n_p_v != "" and c_p_v != "":
+            result = confirmation(n_p_v, c_p_v, emailid)
 
-        if dbotp != otpvalue:
+            if result == True:
 
-            return render(request, "password_update.html", {'OTP': True, 'wrongotp': True})
+                return HttpResponse(" <h1> Password is sucessfuly updated </h1> ")
 
-    return render(request, "password_update.html")
+            else:
+                return HttpResponse(" <h1> Password is not updated , your confirm password is wrong </h1> ")
 
+    else:
+        otp_msg = otp_sending()
+        otp_time = time()
+        update = Signup(
+            email=emailid,
+            otp=otp_msg,
+            otpgentime=otp_time
+        )
+        update.save(update_fields=["otp", "otpgentime"])
 
-def confirmation(request):
-    if request.method == "POST":
-        emailid = request.session["email"]
+        smtp(value1, otp_msg, otp_time, emailid)
 
-        n_p_v = request.POST["np"]
-        c_p_v = request.POST["cp"]
-
-        if n_p_v == c_p_v:
-            update = Signup(
-                    email=emailid,
-                    password=c_p_v
-                )
-            update.save(update_fields=["password"])
-
-            return render(request, "home.html")
-        else:
-            HttpResponse("<h1> New-Password and Confirm-Password value does not match </h1>")
-
-
+    return render(request, "password_update.html", {'OTP': True})
 
 
+def confirmation(np, cp, emailid):
+    n_p_v = np
+    c_p_v = cp
 
+    if n_p_v == c_p_v:
+        update = Signup(
+            email=emailid,
+            password=c_p_v
+        )
+        update.save(update_fields=["password"])
 
-
-
-
-
-
-
-
-
-
-
+        return True
+    else:
+        return False
 
 
 
