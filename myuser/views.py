@@ -80,7 +80,7 @@ def deletedata(request):
     data.delete()
     return redirect("/userindex/fetch/")
 
-
+#lol my name
 def editdata(request):
     email = request.GET["email"]
     data = Signup.objects.get(email=email)
