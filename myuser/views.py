@@ -158,7 +158,7 @@ def updatepassword(request):
 
     if request.method == "POST":
 
-        otpvalue = request.POST["OTP"]
+        otpvalue = request.POST["otp"]
         n_p_v = request.POST["newpassword"]
         c_p_v = request.POST["confirmpassword"]
 
@@ -170,7 +170,7 @@ def updatepassword(request):
 
                 return render(request, "password_update.html", {'updatepassword': True})
             else:
-                return render(request, "password_update.html", {'OTP': True, 'wrongotp': True})
+                return render(request, "password_update.html", {'otp': True, 'wrongotp': True})
 
         if n_p_v != "" and c_p_v != "":
             result = confirmation(n_p_v, c_p_v, emailid)
@@ -194,7 +194,7 @@ def updatepassword(request):
 
         smtp(value1, otp_msg, otp_time, emailid)
 
-    return render(request, "password_update.html", {'OTP': True})
+    return render(request, "password_update.html", {'otp': True})
 
 
 def confirmation(np, cp, emailid):
