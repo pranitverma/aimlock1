@@ -61,6 +61,7 @@ def signup(request):
     return render(request, "signup.html")
 
 
+
 def fetchdata1(request):
     data = Signup.objects.all()
     return render(request,"fetch.html", {'ud':data})
